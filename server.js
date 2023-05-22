@@ -5,7 +5,7 @@ const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+const { v4: uuidv4 } = require('uuid');
 // Middleware
 app.use(express.static("public"));
 app.use(express.json());
@@ -40,6 +40,7 @@ app.post('/api/notes', (req, res) => {
     }
     const notes = JSON.parse(data);
     const newNote = req.body;
+    newNote.id = uuidv4();
     notes.push(newNote);
 
     fs.writeFile('db.json', JSON.stringify(notes), (err) => {
